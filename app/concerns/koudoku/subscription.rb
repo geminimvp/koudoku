@@ -75,7 +75,7 @@ module Koudoku::Subscription
                 metadata: subscription_owner_metadata
               }
 
-              # Get rid of credit cards for free plans
+              # Only add a card for prices that aren't free
               if plan.price > 0.0 and credit_card_token.present?
                 customer_attributes[:card] = credit_card_token # obtained with Stripe.js
               end
