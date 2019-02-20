@@ -66,7 +66,7 @@ module Koudoku::Subscription
             prepare_for_upgrade
 
             begin
-              raise Koudoku::NilCardToken, "No card token received. Check for JavaScript errors breaking Stripe.js on the previous page." unless credit_card_token.present?
+              # raise Koudoku::NilCardToken, "No card token received. Check for JavaScript errors breaking Stripe.js on the previous page." unless credit_card_token.present?
 
               customer_attributes = {
                 description: subscription_owner_description,
