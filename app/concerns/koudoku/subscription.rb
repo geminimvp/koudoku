@@ -75,6 +75,11 @@ module Koudoku::Subscription
                 metadata: subscription_owner_metadata
               }
 
+              # Get rid of credit cards for free plans
+              if plan.price > 0.0 and credit_card_token.present?
+                customer_attributes[:card] = credit_card_token # obtained with Stripe.js
+              end
+
               # If the class we're being included in supports Rewardful ..
               if respond_to? :rewardful_id
                 if rewardful_id.present?
@@ -117,7 +122,7 @@ module Koudoku::Subscription
 
             # store the customer id.
             self.stripe_id = customer.id
-            self.last_four = customer.sources.retrieve(customer.default_source).last4
+            self.last_four = customer.sources.retrieve(customer.default_source).last4 if customer.cards.count > 0
 
             finalize_new_subscription!
             finalize_upgrade!
